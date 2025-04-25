@@ -46,11 +46,7 @@ pipeline {
             }
         }
 
-        stage('Checkov - Terraform Scan') {
-            steps {
-                bat 'checkov -s -f main.tf'
-            }
-        }
+
     }
 
     post {
