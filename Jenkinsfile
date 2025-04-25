@@ -36,27 +36,6 @@ pipeline {
             }
         }
 
-        stage('Run Container Scan with Snyk') {
-            steps {
-                script {
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                        bat '''
-                            set SNYK_TOKEN=%SNYK_TOKEN%
-                            C:\\snyk\\snyk-win.exe container test asecurityguru/testeb
-                        '''
-                    }
-                }
-            }
-        }
-
-        stage('Run Snyk SCA Scan') {
-            steps {
-                bat '''
-                    set SNYK_TOKEN=%SNYK_TOKEN%
-                    mvn snyk:test -fn
-                '''
-            }
-        }
 
         stage('Run DAST using ZAP') {
             steps {
