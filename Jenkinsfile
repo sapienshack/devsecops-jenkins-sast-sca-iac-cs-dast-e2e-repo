@@ -1,12 +1,9 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'Java 21'           // Or whatever you named it
-        maven 'Maven_3_8_7'     // Already installed
-    }
-
     environment {
+        JAVA_HOME = "C:\\Program Files\\Java\\jdk-21" // Update this path if different
+        PATH = "${JAVA_HOME}\\bin;${env.PATH}"
         SONAR_TOKEN = credentials('SONAR_TOKEN')
         SNYK_TOKEN = credentials('SNYK_TOKEN')
     }
@@ -20,17 +17,12 @@ pipeline {
 
         stage('Compile and Run SonarQube Analysis') {
             steps {
-                withEnv([
-                    "JAVA_HOME=${tool 'Java 21'}",
-                    "PATH+JAVA=${tool 'Java 21'}/bin"
-                ]) {
-                    bat '''
-                        mvn -Dmaven.test.failure.ignore verify sonar:sonar ^
-                        -Dsonar.login=%SONAR_TOKEN% ^
-                        -Dsonar.projectKey=easybuggy ^
-                        -Dsonar.host.url=http://localhost:9000/
-                    '''
-                }
+                bat '''
+                    mvn -Dmaven.test.failure.ignore verify sonar:sonar ^
+                    -Dsonar.login=%SONAR_TOKEN% ^
+                    -Dsonar.projectKey=easybuggy ^
+                    -Dsonar.host.url=http://localhost:9000/
+                '''
             }
         }
 
