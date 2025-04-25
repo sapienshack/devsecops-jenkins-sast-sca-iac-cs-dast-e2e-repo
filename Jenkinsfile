@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        jdk 'jdk21'
-        maven 'maven-3.9.6'
+        jdk 'Java 21'           // Or whatever you named it
+        maven 'Maven_3_8_7'     // Already installed
     }
 
     environment {
@@ -21,8 +21,8 @@ pipeline {
         stage('Compile and Run SonarQube Analysis') {
             steps {
                 withEnv([
-                    "JAVA_HOME=${tool 'jdk21'}",
-                    "PATH+JAVA=${tool 'jdk21'}/bin"
+                    "JAVA_HOME=${tool 'Java 21'}",
+                    "PATH+JAVA=${tool 'Java 21'}/bin"
                 ]) {
                     bat '''
                         mvn -Dmaven.test.failure.ignore verify sonar:sonar ^
