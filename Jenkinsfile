@@ -18,9 +18,9 @@ pipeline {
         stage('Compile and Run SonarQube Analysis') {
             steps {
                 bat '''
-                    mvn -Dmaven.test.failure.ignore verify sonar:sonar ^ 
-                    -Dsonar.login=%SONAR_TOKEN% ^ 
-                    -Dsonar.projectKey=easybuggy ^ 
+                    mvn -Dmaven.test.failure.ignore verify sonar:sonar ^
+                    -Dsonar.login=%SONAR_TOKEN% ^
+                    -Dsonar.projectKey=easybuggy ^
                     -Dsonar.host.url=http://localhost:9000/
                 '''
             }
@@ -41,7 +41,7 @@ pipeline {
                 script {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                         bat '''
-                            set SNYK_TOKEN=%SNYK_TOKEN% &&
+                            set SNYK_TOKEN=%SNYK_TOKEN%
                             C:\\snyk\\snyk-win.exe container test asecurityguru/testeb
                         '''
                     }
@@ -52,7 +52,7 @@ pipeline {
         stage('Run Snyk SCA Scan') {
             steps {
                 bat '''
-                    set SNYK_TOKEN=%SNYK_TOKEN% &&
+                    set SNYK_TOKEN=%SNYK_TOKEN%
                     mvn snyk:test -fn
                 '''
             }
